@@ -94,6 +94,10 @@ a {
     max-width: 25px;
 }
 
+.wallet {
+    border: none;
+}
+
 /*--------------------------------------------------
 [2. Start Main]
 --------------------------------------------------*/
@@ -149,7 +153,7 @@ a {
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) { 
     .navbar {
-        background: -webkit-linear-gradient(top left,#8066dc 0%,#5040a0 100%) !important;
+        background: transparent !important;
         padding:30px;
     }
     .navbar .nav-item {
@@ -161,65 +165,19 @@ a {
         margin: 0;
     }
     .slider {
-        height: auto;
+        height: 100vh;
         padding: 160px 0 120px 0;
         text-align: center;
     }
     .slider .text {
         margin-bottom: 50px;
-    }
-    .slider .image {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .about {
-        text-align: center;
-    }
-    .about .image {
-        margin-bottom: 50px;
-    }
-    .features {
-        text-align: center;
-        padding: 120px 0 80px 0; 
-    }
-    .features .box {
-        margin-bottom: 40px;
-    }
-    .about .work-img {
-        margin: 0;
-        margin-top: 50px;
-    }
-    .benefits {
-        margin-bottom: 80px;
-    }
-    .benefits .box {
-        margin-bottom: 40px;
-    }
-    .team {
-        margin-bottom: 80px;
-    }
-    .team .box {
-        margin-bottom: 40px;
-    }
-    .team .content img {
-        width: 100%;
-    }
-    .testimonials .control {
-        display: none;
-    }
-    .price {
-        margin-bottom: 80px;
-    }
-    .price .box {
-        margin-bottom: 40px;
     }
  }
 
 /* Small devices (landscape phones, less than 768px) */
 @media (max-width: 767.98px) { 
     .navbar {
-        background: -webkit-linear-gradient(top left,#8066dc 0%,#5040a0 100%) !important;
+        background: transparent;
         padding:30px;
     }
     .navbar .nav-item {
@@ -237,59 +195,13 @@ a {
     }
     .slider .text {
         margin-bottom: 50px;
-    }
-    .slider .image {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .about {
-        text-align: center;
-    }
-    .about .image {
-        margin-bottom: 50px;
-    }
-    .features {
-        text-align: center;
-        padding: 120px 0 80px 0; 
-    }
-    .features .box {
-        margin-bottom: 40px;
-    }
-    .about .work-img {
-        margin: 0;
-        margin-top: 50px;
-    }
-    .benefits {
-        margin-bottom: 80px;
-    }
-    .benefits .box {
-        margin-bottom: 40px;
-    }
-    .team {
-        margin-bottom: 80px;
-    }
-    .team .box {
-        margin-bottom: 40px;
-    }
-    .team .content img {
-        width: 100%;
-    }
-    .testimonials .control {
-        display: none;
-    }
-    .price {
-        margin-bottom: 80px;
-    }
-    .price .box {
-        margin-bottom: 40px;
     }
  }
 
 /* Medium devices (tablets, less than 992px) */
 @media (max-width: 991.98px) { 
     .navbar {
-        background: -webkit-linear-gradient(top left,#8066dc 0%,#5040a0 100%) !important;
+        background: transparent !important;
         padding:30px;
     }
     .navbar .nav-item {
@@ -308,42 +220,4 @@ a {
     .slider .text {
         margin-bottom: 50px;
     }
-    .slider .image {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .about {
-        text-align: center;
-    }
-    .about .image {
-        margin-bottom: 50px;
-    }
-    
-    .about .work-img {
-        margin: 0;
-        margin-top: 50px;
-    }
-    .team {
-        margin-bottom: 80px;
-    }
-    .team .box {
-        margin-bottom: 40px;
-    }
-    .team .content img {
-        width: 100%;
-    }
-    
-    .testimonials .control {
-        display: none;
-    }
-    .price {
-        margin-bottom: 80px;
-    }
-    .price .box {
-        margin-bottom: 40px;
-    }
  }
-
-/* Large devices (desktops, less than 1200px) */
-@media (max-width: 1199.98px) { }
