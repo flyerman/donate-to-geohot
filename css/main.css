@@ -114,7 +114,11 @@ a {
   }
 
 .input-group {
-    padding: 20px;
+    padding: 30px;
+}
+
+.space-right {
+    margin-right: 10px;
 }
 
 /*--------------------------------------------------
