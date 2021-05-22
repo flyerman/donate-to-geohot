@@ -16,7 +16,7 @@ async function getAccount() {
 function getValue() {
   // get the donation value inserted by the user
   const amount = document.getElementById("donation-input").value;
-  if (isNaN(amount)) {
+  if (isNaN(amount) || amount === '') {
     document.getElementById("donation-input").value =
       "Please insert proper value!";
     return false;
