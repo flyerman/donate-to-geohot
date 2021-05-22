@@ -27,12 +27,16 @@ async function getAccount() {
 
 function getValue() {
   // get the donation value inserted by the user
-  const amount = document.getElementById("donation-input").value;
+  donationInput = document.getElementById("donation-input");
+  const amount = donationInput.value;
   if (isNaN(amount) || amount === '') {
-    document.getElementById("donation-input").value =
-      "Please insert proper value!";
+    donationInput.style.borderColor = "red";
+    donationInput.style.borderWidth = "thick";
+    donationInput.value = "";
+    donationInput.setAttribute("placeholder", "Please enter a proper number!");
     return false;
   }
+  donationInput.style.borderColor = "";
   return parseInt(Web3.utils.toWei(amount, "ether")).toString(16);
 }
 
@@ -70,12 +74,19 @@ async function performTransaction(value, account) {
 }
 
 function handleSuccess() {
-  document.getElementById("donation-input").value =
-    "Thanks for your contribution!";
+  donationInput = document.getElementById("donation-input");
+  donationInput.style.borderColor = "green";
+  donationInput.style.borderWidth = "thick";
+  donationInput.value = "";
+  donationInput.setAttribute("placeholder", "Thanks for your contribution!");
 }
 
 function handleError() {
-  document.getElementById("donation-input").value = "Something is wrong!";
+  donationInput = document.getElementById("donation-input");
+  donationInput.style.borderColor = "red";
+  donationInput.style.borderWidth = "thick";
+  donationInput.value = "";
+  donationInput.setAttribute("placeholder", "Something is wrong!");
 }
 
 function comingSoon() {
