@@ -1,3 +1,16 @@
+window.addEventListener('load', function() {
+  if (typeof web3 !== 'undefined') {
+    console.log('web3 is enabled')
+    if (web3.currentProvider.isMetaMask === true) {
+      console.log('MetaMask is active')
+    } else {
+      alert('MetaMask is not available, please install MetaMask extension')
+    }
+  } else {
+    alert('Web3 is not found. Please install MetaMask extension')
+  }
+})
+
 async function donate() {
   const account = await getAccount();
   const value = getValue();
@@ -8,7 +21,6 @@ async function donate() {
 
 async function getAccount() {
   // ask which account the user intends to use
-  // TODO: check if Metamask is installed
   const accounts = await ethereum.request({ method: "eth_requestAccounts" });
   return accounts[0];
 }
