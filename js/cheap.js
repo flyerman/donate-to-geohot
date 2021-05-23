@@ -18,7 +18,7 @@ window.addEventListener('load', function() {
   })
 
     // detect Network account change
-  window.ethereum.on('networkChanged', function(networkId) {
+  window.ethereum.on('chainChanged', function(networkId) {
     updateDonorBalance();
   })
 })
@@ -64,7 +64,7 @@ function getValue() {
     return false;
   }
   donationInput.style.borderColor = "";
-  return parseInt(Web3.utils.toWei(amount, "ether")).toString(16);
+  return ethers.utils.parseEther(amount, "ether");
 }
 
 async function performTransaction(value, account) {
@@ -83,7 +83,7 @@ async function performTransaction(value, account) {
         {
           from: account,
           to: GFG_CONTRACT_ADDRESS, // george
-          value: value,
+          value: value.toHexString(),
           gas: "0x15F90", // 90000 int
           data: "0xed88c68e",
         },
