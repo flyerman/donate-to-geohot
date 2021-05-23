@@ -9,6 +9,11 @@ window.addEventListener('load', function() {
   } else {
     alert('Web3 is not found. Please install MetaMask extension')
   }
+
+  const ethersProvider = new ethers.providers.JsonRpcProvider("https://rpc.cheapeth.org/rpc")
+  ethersProvider.getBalance("0x891f4cda9738e0e77d5a12cd209edb9cbfae30c7").then((value) =>
+    document.getElementById("gfg-fund-balance").innerHTML = ethers.utils.formatUnits(value, unit = "ether")
+  )
 })
 
 async function donate() {
