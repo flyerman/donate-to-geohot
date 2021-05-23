@@ -17,26 +17,32 @@ window.addEventListener('load', function() {
     updateDonorBalance();
   })
 
-    // detect Network account change
+  // detect Network account change
   window.ethereum.on('chainChanged', function(networkId) {
     updateDonorBalance();
   })
 })
 
 async function updateDonorBalance() {
-  if (ethereum.selectedAddress && GFG_CONTRACT) {
-    GFG_CONTRACT.getBalance(ethereum.selectedAddress).then((donorBalance) => {
-      donorBalance = ethers.utils.formatUnits(donorBalance, unit = "ether")
-      document.getElementById("gfg-donor-balance").innerHTML = "You donated " + donorBalance + " cTH."
-    })
+  if (!ethereum.selectedAddress || !GFG_CONTRACT) {
+    return;
   }
+  GFG_CONTRACT.getBalance(ethereum.selectedAddress).then((donorBalance) => {
+    // Save it for unDonate()
+    DONOR_BALANCE = donorBalance
+    donorBalance = ethers.utils.formatUnits(donorBalance, unit = "ether")
+    document.getElementById("gfg-donor-balance").innerHTML = "You donated " + donorBalance + " cTH."
+    document.getElementById("undonateButton").innerHTML = "Get my " + donorBalance + " back!"
+    SIGNER = (new ethers.providers.Web3Provider(window.ethereum)).getSigner()
+    SIGNED_GFG_CONTRACT = GFG_CONTRACT.connect(SIGNER)
+  })
 }
 
 async function donate() {
   const account = await getAccount();
   const value = getValue();
   if (value && account) {
-    await performTransaction(value, account);
+    await performDonation(value, account);
   }
 }
 
@@ -67,7 +73,7 @@ function getValue() {
   return ethers.utils.parseEther(amount, "ether");
 }
 
-async function performTransaction(value, account) {
+async function performDonation(value, account) {
   /*
   perform the actual transaction
   from: the account selected by the user, returned by metamask
@@ -91,16 +97,16 @@ async function performTransaction(value, account) {
     })
     .then((response) => {
       console.log(`${response}`);
-      handleSuccess();
+      handleDonationSuccess();
     })
     .catch((err) => {
       console.error(err.message);
       alert(`${err.message}`);
-      handleError();
+      handleDonnationError();
     });
 }
 
-function handleSuccess() {
+function handleDonationSuccess() {
   donationInput = document.getElementById("donation-input");
   donationInput.style.borderColor = "green";
   donationInput.style.borderWidth = "thick";
@@ -108,7 +114,7 @@ function handleSuccess() {
   donationInput.setAttribute("placeholder", "Thanks for your contribution!");
 }
 
-function handleError() {
+function handleDonnationError() {
   donationInput = document.getElementById("donation-input");
   donationInput.style.borderColor = "red";
   donationInput.style.borderWidth = "thick";
@@ -116,6 +122,18 @@ function handleError() {
   donationInput.setAttribute("placeholder", "Something is wrong!");
 }
 
-function comingSoon() {
-  alert("Coming Soon!");
+async function unDonate() {
+  if (!DONOR_BALANCE) {
+    alert("Connect your account first!")
+    return;
+  }
+  if (!ethereum.selectedAddress || !GFG_CONTRACT) {
+    return;
+  }
+  SIGNED_GFG_CONTRACT.unDonate(DONOR_BALANCE).then(() => {
+    alert("You got your money back!");
+  }).catch((err) => {
+    console.error(err.message);
+    alert(`${err.message}`);
+  });
 }
