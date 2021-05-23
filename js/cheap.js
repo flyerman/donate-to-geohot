@@ -1,20 +1,36 @@
-window.addEventListener('load', function() {
-  if (typeof web3 !== 'undefined') {
-    console.log('web3 is enabled')
-    if (web3.currentProvider.isMetaMask === true) {
-      console.log('MetaMask is active')
-    } else {
-      alert('MetaMask is not available, please install MetaMask extension')
-    }
-  } else {
-    alert('Web3 is not found. Please install MetaMask extension')
-  }
+const GFG_CONTRACT_ADDRESS = "0x891f4cda9738e0e77d5a12cd209edb9cbfae30c7"
 
-  const ethersProvider = new ethers.providers.JsonRpcProvider("https://rpc.cheapeth.org/rpc")
-  ethersProvider.getBalance("0x891f4cda9738e0e77d5a12cd209edb9cbfae30c7").then((value) =>
+window.addEventListener('load', function() {
+  // Update contract balance
+  ETHERS_PROVIDER = new ethers.providers.JsonRpcProvider("https://rpc.cheapeth.org/rpc")
+  ETHERS_PROVIDER.getBalance(GFG_CONTRACT_ADDRESS).then((value) =>
     document.getElementById("gfg-fund-balance").innerHTML = ethers.utils.formatUnits(value, unit = "ether")
   )
+
+  $.getJSON('https://raw.githubusercontent.com/CheapEthereum/GoFundGeohot/master/data/abi/GoFundGeohot.json', function(gfgAbi) {
+    GFG_CONTRACT = new ethers.Contract(GFG_CONTRACT_ADDRESS, gfgAbi, ETHERS_PROVIDER)
+    updateDonorBalance()
+  });
+
+  // detect Metamask account change
+  window.ethereum.on('accountsChanged', function (accounts) {
+    updateDonorBalance();
+  })
+
+    // detect Network account change
+  window.ethereum.on('networkChanged', function(networkId) {
+    updateDonorBalance();
+  })
 })
+
+async function updateDonorBalance() {
+  if (ethereum.selectedAddress && GFG_CONTRACT) {
+    GFG_CONTRACT.getBalance(ethereum.selectedAddress).then((donorBalance) => {
+      donorBalance = ethers.utils.formatUnits(donorBalance, unit = "ether")
+      document.getElementById("gfg-donor-balance").innerHTML = "You donated " + donorBalance + " cTH."
+    })
+  }
+}
 
 async function donate() {
   const account = await getAccount();
@@ -28,6 +44,12 @@ async function getAccount() {
   // ask which account the user intends to use
   const accounts = await ethereum.request({ method: "eth_requestAccounts" });
   return accounts[0];
+}
+
+function connectMetaMask() {
+  getAccount().then((value) =>
+    updateDonorBalance()
+  )
 }
 
 function getValue() {
@@ -60,7 +82,7 @@ async function performTransaction(value, account) {
       params: [
         {
           from: account,
-          to: "0x891f4cda9738e0e77d5a12cd209edb9cbfae30c7", // george
+          to: GFG_CONTRACT_ADDRESS, // george
           value: value,
           gas: "0x15F90", // 90000 int
           data: "0xed88c68e",
