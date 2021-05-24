@@ -42,14 +42,15 @@
                             <h1 class="h1-w mb-20">Donate to George Hotz</h1>
                             <p class="p-w mb-30">Do you wanna help us to raise funds to contract George Hotz (geohot) to implement
                                 checkpointing for cheapETH?</p>
-                            <h2 class="h2-w mb-20">Already collected: <span id="gfg-fund-balance">...</span> cTH</h2>
+                            <h2 class="h2-w mb-20"><span id="gfg-fund-balance">...</span> cTH already collected!</h2>
+                            <h2 class="h2-w mb-20" id="gfg-donor-balance">&nbsp;</h2>
                         </div>
                         <div class="input-group">
                             <input id="donation-input" type="text" class="form-control new-border text-center" placeholder="Enter your donation amount in cTH" aria-label="Enter your donation amount in cheap ethereum" aria-describedby="basic-addon2">
                         </div>
+                        <a href="#" class="btn-white d-inline-block space-right" onclick="connectMetaMask()">Connect MetaMask</a>
                         <a href="#" class="btn-white d-inline-block space-right" onclick="donate()">Donate</a>
-                        <a href="#" class="btn-white d-inline-block" onclick="comingSoon()">Sorry, get my cTH back!</a>
-                        <p class="text-muted secondary">Attention: get my cTH back button is NOT implemented yet!</p>
+                        <a href="#" class="btn-white d-inline-block" onclick="unDonate()" id="undonateButton">Get my ... back!</a>
                     </div>
                 </div>
             </div>
@@ -70,10 +71,7 @@
         <script src="js/main.js"></script>
 
         <!-- Chain Related -->
-        <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-        <script src="js/cheap.js"></script>
-
-        <!-- Ethers -->
         <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+        <script src="js/cheap.js"></script>
     </body>
 </html>
