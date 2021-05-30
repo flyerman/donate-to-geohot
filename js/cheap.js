@@ -1,48 +1,41 @@
-const GFG_CONTRACT_ADDRESS = "0x891f4cda9738e0e77d5a12cd209edb9cbfae30c7"
+const CHEAPRAND_CONTRACT_ADDRESS = "0x2960d4828357772aebbCaC2C23516A7F20A34FB7"
 
 window.addEventListener('load', function() {
   // Update contract balance
   ETHERS_PROVIDER = new ethers.providers.JsonRpcProvider("https://rpc.cheapeth.org/rpc")
-  ETHERS_PROVIDER.getBalance(GFG_CONTRACT_ADDRESS).then((value) =>
-    document.getElementById("gfg-fund-balance").innerHTML = ethers.utils.formatUnits(value, unit = "ether")
-  )
+  // ETHERS_PROVIDER.getBalance(GFG_CONTRACT_ADDRESS).then((value) =>
+  //   document.getElementById("gfg-fund-balance").innerHTML = ethers.utils.formatUnits(value, unit = "ether")
+  // )
 
-  $.getJSON('https://raw.githubusercontent.com/CheapEthereum/GoFundGeohot/master/data/abi/GoFundGeohot.json', function(gfgAbi) {
-    GFG_CONTRACT = new ethers.Contract(GFG_CONTRACT_ADDRESS, gfgAbi, ETHERS_PROVIDER)
-    updateDonorBalance()
+  $.getJSON('https://raw.githubusercontent.com/CheapEthereum/LinkToken/master/abi/contracts/v0.6/CheapRand.sol/CheapRand.json', function(cheapRandAbi) {
+    CHEAPRAND_CONTRACT = new ethers.Contract(CHEAPRAND_CONTRACT_ADDRESS, cheapRandAbi, ETHERS_PROVIDER)
+    updateCheapRandNumber()
   });
 
   // detect Metamask account change
   window.ethereum.on('accountsChanged', function (accounts) {
-    updateDonorBalance();
+    updateCheapRandNumber();
   })
 
   // detect Network account change
   window.ethereum.on('chainChanged', function(networkId) {
-    updateDonorBalance();
+    updateCheapRandNumber();
   })
 })
 
-async function updateDonorBalance() {
-  if (!ethereum.selectedAddress || !GFG_CONTRACT) {
+async function updateCheapRandNumber() {
+  if (!CHEAPRAND_CONTRACT) {
     return;
   }
-  GFG_CONTRACT.getBalance(ethereum.selectedAddress).then((donorBalance) => {
-    // Save it for unDonate()
-    DONOR_BALANCE = donorBalance
-    donorBalance = ethers.utils.formatUnits(donorBalance, unit = "ether")
-    document.getElementById("gfg-donor-balance").innerHTML = "You donated " + donorBalance + " cTH."
-    document.getElementById("undonateButton").innerHTML = "Get my " + donorBalance + " back!"
-    SIGNER = (new ethers.providers.Web3Provider(window.ethereum)).getSigner()
-    SIGNED_GFG_CONTRACT = GFG_CONTRACT.connect(SIGNER)
+  CHEAPRAND_CONTRACT.number().then((cheapNumber) => {
+    document.getElementById("gfg-fund-balance").innerHTML = cheapNumber
   })
 }
 
-async function donate() {
+async function drawCheapNumber() {
   const account = await getAccount();
-  const value = getValue();
-  if (value && account) {
-    await performDonation(value, account);
+  if (account) {
+    await drawCheapNumber(account);
   }
 }
 
@@ -54,7 +47,7 @@ async function getAccount() {
 
 function connectMetaMask() {
   getAccount().then((value) =>
-    updateDonorBalance()
+    updateCheapRandNumber()
   )
 }
 
@@ -73,65 +66,17 @@ function getValue() {
   return ethers.utils.parseEther(amount, "ether");
 }
 
-async function performDonation(value, account) {
-  /*
-  perform the actual transaction
-  from: the account selected by the user, returned by metamask
-  to: the smart contract addr
-  value: donation value, properly adjusted
-  gas: hex version of the fixed value I found on the python script
-  data: value we need to perform the transaction to the contract (I guess?)
-  */
-  await ethereum
-    .request({
-      method: "eth_sendTransaction",
-      params: [
-        {
-          from: account,
-          to: GFG_CONTRACT_ADDRESS, // george
-          value: value.toHexString(),
-          gas: "0x15F90", // 90000 int
-          data: "0xed88c68e",
-        },
-      ],
-    })
-    .then((response) => {
-      console.log(`${response}`);
-      handleDonationSuccess();
-    })
-    .catch((err) => {
-      console.error(err.message);
-      alert(`${err.message}`);
-      handleDonnationError();
-    });
-}
+async function drawCheapNumber(account) {
 
-function handleDonationSuccess() {
-  donationInput = document.getElementById("donation-input");
-  donationInput.style.borderColor = "green";
-  donationInput.style.borderWidth = "thick";
-  donationInput.value = "";
-  donationInput.setAttribute("placeholder", "Thanks for your contribution!");
-}
-
-function handleDonnationError() {
-  donationInput = document.getElementById("donation-input");
-  donationInput.style.borderColor = "red";
-  donationInput.style.borderWidth = "thick";
-  donationInput.value = "";
-  donationInput.setAttribute("placeholder", "Something is wrong!");
-}
-
-async function unDonate() {
-  if (!DONOR_BALANCE) {
-    alert("Connect your account first!")
+  if (!ethereum.selectedAddress || !CHEAPRAND_CONTRACT) {
     return;
   }
-  if (!ethereum.selectedAddress || !GFG_CONTRACT) {
-    return;
-  }
-  SIGNED_GFG_CONTRACT.unDonate(DONOR_BALANCE).then(() => {
-    alert("You got your money back!");
+
+  SIGNER = (new ethers.providers.Web3Provider(window.ethereum)).getSigner()
+  SIGNED_CHEAPRAND_CONTRACT = CHEAPRAND_CONTRACT.connect(SIGNER)
+
+  SIGNED_CHEAPRAND_CONTRACT.requestCheapNumber().then(() => {
+    alert("New Cheap Number is on its way!");
   }).catch((err) => {
     console.error(err.message);
     alert(`${err.message}`);

@@ -39,18 +39,21 @@
                 <div class="row d-flex align-items-center mt-60">
                     <div class="col-lg-12">
                         <div class="text">
-                            <h1 class="h1-w mb-20">Donate to George Hotz</h1>
-                            <p class="p-w mb-30">Do you wanna help us to raise funds to contract George Hotz (geohot) to implement
-                                checkpointing for cheapETH?</p>
-                            <h2 class="h2-w mb-20"><span id="gfg-fund-balance">...</span> cTH already collected!</h2>
-                            <h2 class="h2-w mb-20" id="gfg-donor-balance">&nbsp;</h2>
+                            <h1 class="h1-w mb-20">CheapLink</h1>
+                            <h1 class="h1-w mb-20">CheapRandom demo</h1>
+                            <p class="p-w mb-30">
+                                <ul>
+                                    <li style="text-align: left; color: white">The <a href="https://hub.docker.com/r/smartcontract/chainlink">ChainLink node</a> is running on node.pool.cheap</li>
+                                    <li style="text-align: left; color: white">ChainLink node job id: e840cdd18dac4a7fb5f467bfe7254b3b</li>
+                                    <li style="text-align: left; color: white"><a href="https://github.com/CheapEthereum/LinkToken/blob/master/contracts/v0.6/CheapLinkToken.sol">CheapLink token</a> address: <a href="https://explore.cheapswap.io/account/0x85df4b0968d48a9045d00bff440f89635a65796b">0x85DF4b0968d48a9045D00bFF440f89635a65796B</a></li>
+                                    <li style="text-align: left; color: white"><a href="https://github.com/CheapEthereum/LinkToken/blob/master/contracts/v0.6.6/Oracle.sol">Oracle contract</a> deployed at: <a href="https://explore.cheapswap.io/account/0x1da0c3a1d2223b864bea918617c5ea456ff77001">0x1da0C3A1d2223B864beA918617C5Ea456ff77001</a></li>
+                                    <li style="text-align: left; color: white"><a href="https://github.com/CheapEthereum/LinkToken/blob/master/contracts/v0.6/CheapRand.sol">Chainlink client contract</a> deployed at: <a href="https://explore.cheapswap.io/account/0x2960d4828357772aebbcac2c23516a7f20a34fb7">0x2960d4828357772aebbCaC2C23516A7F20A34FB7</a></li>
+                                    <li style="text-align: left; color: white"><a href="https://github.com/CheapEthereum/randomnumberapi">Random number rest API</a> is on <a href="https://node.pool.cheap/cr">node.pool.cheap/cr</a></li>
+                                </ul>
+                            </p>
+                            <h2 class="h2-w mb-20">The Cheap Number is: <span id="gfg-fund-balance">...</span></h2>
                         </div>
-                        <div class="input-group">
-                            <input id="donation-input" type="text" class="form-control new-border text-center" placeholder="Enter your donation amount in cTH" aria-label="Enter your donation amount in cheap ethereum" aria-describedby="basic-addon2">
-                        </div>
-                        <a href="#" class="btn-white d-inline-block space-right" onclick="connectMetaMask()">Connect MetaMask</a>
-                        <a href="#" class="btn-white d-inline-block space-right" onclick="donate()">Donate</a>
-                        <a href="#" class="btn-white d-inline-block" onclick="unDonate()" id="undonateButton">Get my ... back!</a>
+                        <a href="#" class="btn-white d-inline-block space-right" onclick="drawCheapNumber()">Draw Cheap Number</a>
                     </div>
                 </div>
             </div>
